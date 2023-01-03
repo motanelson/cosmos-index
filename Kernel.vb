@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports System.IO
 Imports Cosmos.HAL
+Imports System.Runtime.InteropServices
 
 Namespace basic
 
@@ -367,6 +368,68 @@ findvarexit:
 						GoTo allkey
 					End If
 
+					'key integer ,var,number value
+					If par1.CompareTo(keywords(5)) = 0 Then
+						errorssi = 5
+
+						If par(5) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							If findvar(tc) = -1 And tc.CompareTo("") Then
+								addvar(tc, 0, iii, "", Double.Parse(separete(2).Trim()))
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key float ,var,number value
+					If par1.CompareTo(keywords(74)) = 0 Then
+						errorssi = 74
+
+						If par(74) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							If findvar(tc) = -1 And tc.CompareTo("") Then
+								addvar(tc, 0, iii, "", Double.Parse(separete(2).Trim()))
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key set ,constant,text
+					If par1.CompareTo(keywords(1)) = 0 Then
+						errorssi = 1
+
+						If par(1) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+
+							ifindvar = findvar(tc)
+							If ifindvar <> -1 And tc.CompareTo("") Then
+								If varstype(ifindvar) = 0 Then
+									varnumber(ifindvar) = Double.Parse(separete(2).Trim())
+								Else
+									varvalue(ifindvar) = separete(2)
+								End If
+
+							Else
+									iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+
 				End If
 
 			Next
@@ -491,6 +554,9 @@ findstateexit:
 			Console.WriteLine("exit")
 			Console.WriteLine("string,s,hello world")
 			Console.WriteLine("print,s")
+			Console.WriteLine("integer,number,100")
+			Console.WriteLine("float,number,100")
+			Console.WriteLine("set,number,100")
 		End Sub
 
 
