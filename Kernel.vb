@@ -224,7 +224,25 @@ Namespace basic
 			Dim inputs = Console.ReadLine()
 			Return inputs.ToString().Split(Chr(13) + Chr(10))
 		End Function
+		Public Function finds(names As String) As Integer
+			Return 0
+		End Function
+		Public Function findvar(names As String) As Integer
+			Dim aaa As Integer
+			Dim aa As Integer
+			aaa = -1
+			If varscount > 0 Then
+				For aa = 0 To varscount - 1
+					If vars(aa).CompareTo(names) = 0 Then
+						aaa = aa
+						GoTo findvarexit
+					End If
+				Next
+			End If
+findvarexit:
+			Return aaa
 
+		End Function
 
 
 
@@ -283,15 +301,82 @@ Namespace basic
 
 						GoTo allkey
 					End If
+					'key string ,value
+					If par1.CompareTo(keywords(21)) = 0 Then
+						errorssi = 21
 
+						If par(21) = separete.Count() Then
+							tc = separete(1).Trim().ToUpper()
+							Dim findsvari As Integer
+							findsvari = findvar(tc)
+							If findsvari = -1 And tc.CompareTo("") <> 0 Then
+								addvar(tc, 1, iii, separete(2), 0.00)
+
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+
+
+					'key print,var
+					If par1.CompareTo(keywords(0)) = 0 Then
+						errorssi = 0
+
+						If par(0) = separete.Count() Then
+
+							tc = separete(1).Trim().ToUpper()
+
+							bbb = findvar(tc)
+
+
+							If bbb <> -1 And tc.CompareTo("") <> 0 Then
+
+
+								If varstype(bbb) = 0 Then
+
+									Console.WriteLine(varnumber(bbb).ToString())
+
+									errorssi = -1
+									errorss = 0
+
+
+								Else
+
+									If varstype(bbb) = 1 Then
+
+
+										Console.WriteLine(varvalue(bbb))
+										errorssi = -1
+										errorss = 0
+
+
+									Else
+										iii = 1 + iii
+										GoTo errorhandler
+									End If
+
+								End If
+							End If
+						End If
+						GoTo allkey
+					End If
 
 				End If
-                Next
+
+			Next
 
 
 allkey:
+
+			GoTo escapehandler
 errorhandler:
-			'Console.WriteLine("error on line " + iStr(iii) + " keyword :" + keywords(errorssi) + debug)
+			Console.WriteLine("error on line " + istr(iii) + " keyword :" + keywords(errorssi) + debug)
 escapehandler:
 
 		End Sub
@@ -311,19 +396,7 @@ escapehandler:
 			Return a.ToLower()
 
 		End Function
-		Private Function findvar(name As String) As Integer
-			aaa = -1
-			If varscount > 0 Then
-				For aa = 0 To varscount - 1
-					If vars(aa) = name Then
-						aaa = aa
-						GoTo findvarexit
-					End If
-				Next
-			End If
-findvarexit:
-			Return aaa
-		End Function
+
 
 
 		Private Function addlabel(name As String, state As Integer, address As Integer, definer As Integer) As Integer
@@ -416,7 +489,8 @@ findstateexit:
 		Sub ToHelp()
 			Console.WriteLine("echo,hello world")
 			Console.WriteLine("exit")
-
+			Console.WriteLine("string,s,hello world")
+			Console.WriteLine("print,s")
 		End Sub
 
 
