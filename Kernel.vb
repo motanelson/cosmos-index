@@ -404,7 +404,7 @@ findvarexit:
 						End If
 						GoTo allkey
 					End If
-					'key set ,constant,text
+					'key set ,var,value
 					If par1.CompareTo(keywords(1)) = 0 Then
 						errorssi = 1
 
@@ -429,6 +429,49 @@ findvarexit:
 						End If
 						GoTo allkey
 					End If
+					'key let ,var,value
+					If par1.CompareTo(keywords(6)) = 0 Then
+						errorssi = 6
+
+						If par(6) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+
+							ifindvar = findvar(tc)
+							If ifindvar <> -1 And tc.CompareTo("") Then
+								If varstype(ifindvar) = 0 Then
+									varnumber(ifindvar) = Double.Parse(separete(2).Trim())
+								Else
+									varvalue(ifindvar) = separete(2)
+								End If
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key beep
+					If par1.CompareTo(keywords(88)) = 0 Then
+						errorssi = 88
+						If par(88) = separete.Length Then
+							Console.Beep()
+						Else
+							iii = 1 + iii
+							GoTo errorhandler
+
+						End If
+						errorssi = -1
+						errorss = 0
+
+						GoTo allkey
+					End If
+
+
+
 
 				End If
 
@@ -557,6 +600,8 @@ findstateexit:
 			Console.WriteLine("integer,number,100")
 			Console.WriteLine("float,number,100")
 			Console.WriteLine("set,number,100")
+			Console.WriteLine("let,var,  hello world    ")
+			Console.WriteLine("beep")
 		End Sub
 
 
