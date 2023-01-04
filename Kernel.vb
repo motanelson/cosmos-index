@@ -4,6 +4,7 @@ Imports System.Text
 Imports System.IO
 Imports Cosmos.HAL
 Imports System.Runtime.InteropServices
+Imports System.Threading
 
 Namespace basic
 
@@ -374,7 +375,7 @@ findvarexit:
 
 						If par(5) = separete.Length Then
 							tc = separete(1).Trim().ToUpper()
-							If findvar(tc) = -1 And tc.CompareTo("") Then
+							If findvar(tc) = -1 And tc.CompareTo("") <> 0 Then
 								addvar(tc, 0, iii, "", Double.Parse(separete(2).Trim()))
 
 							Else
@@ -392,7 +393,7 @@ findvarexit:
 
 						If par(74) = separete.Length Then
 							tc = separete(1).Trim().ToUpper()
-							If findvar(tc) = -1 And tc.CompareTo("") Then
+							If findvar(tc) = -1 And tc.CompareTo("") <> 0 Then
 								addvar(tc, 0, iii, "", Double.Parse(separete(2).Trim()))
 
 							Else
@@ -413,7 +414,7 @@ findvarexit:
 							Dim ifindvar As Integer
 
 							ifindvar = findvar(tc)
-							If ifindvar <> -1 And tc.CompareTo("") Then
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 Then
 								If varstype(ifindvar) = 0 Then
 									varnumber(ifindvar) = Double.Parse(separete(2).Trim())
 								Else
@@ -421,7 +422,7 @@ findvarexit:
 								End If
 
 							Else
-									iii = 1 + iii
+								iii = 1 + iii
 								GoTo errorhandler
 							End If
 							errorssi = -1
@@ -438,7 +439,7 @@ findvarexit:
 							Dim ifindvar As Integer
 
 							ifindvar = findvar(tc)
-							If ifindvar <> -1 And tc.CompareTo("") Then
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 Then
 								If varstype(ifindvar) = 0 Then
 									varnumber(ifindvar) = Double.Parse(separete(2).Trim())
 								Else
@@ -469,7 +470,32 @@ findvarexit:
 
 						GoTo allkey
 					End If
+					'key timer.sleep ,var
+					If par1.CompareTo(keywords(50)) = 0 Then
+						errorssi = 50
 
+						If par(50) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+
+							ifindvar = findvar(tc)
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 Then
+								If varstype(ifindvar) = 0 Then
+									Thread.Sleep(varnumber(ifindvar))
+								Else
+									GoTo errorhandler
+
+								End If
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
 
 
 
@@ -602,6 +628,7 @@ findstateexit:
 			Console.WriteLine("set,number,100")
 			Console.WriteLine("let,var,  hello world    ")
 			Console.WriteLine("beep")
+			Console.WriteLine("time.sleep,var1")
 		End Sub
 
 
