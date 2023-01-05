@@ -3,8 +3,10 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports System.IO
 Imports Cosmos.HAL
+Imports Sys = Cosmos.System
 Imports System.Runtime.InteropServices
 Imports System.Threading
+
 
 Namespace basic
 
@@ -183,7 +185,7 @@ Namespace basic
 			addkey("bitmap.creat", 4) 'key 90
 			addkey("bitmap.back", 3) 'key 91
 			addkey("bitmap.attr", 4) 'key 92
-
+			addkey("edit", 2) 'key 93
 
 			'code head
 			'add debug
@@ -253,9 +255,10 @@ findvarexit:
 
 
 			Dim s As String() = GetLines()
-
+onruns:
 
 			For Each ss In s
+
 				ss = ss.Replace(Chr(10), "")
 				ss = ss.Replace("'", Chr(34))
 				Dim separete As String() = ss.Split(",")
@@ -496,15 +499,89 @@ findvarexit:
 						End If
 						GoTo allkey
 					End If
+					'key edit,filename.idx to chain control 
+					If par1.CompareTo(keywords(93)) = 0 Then
+						errorssi = 93
+
+						If par(93) = separete.Length Then
+							tc = separete(1).Trim()
 
 
+
+							If tc.CompareTo("") <> 0 Then
+
+
+
+
+
+								Console.WriteLine("enter a empty line to exit")
+								Dim sss1 As String = ""
+								Dim ssss1 As String = "."
+								While ssss1.CompareTo("") <> 0
+
+									Dim Input As String = Console.ReadLine()
+									sss1 = sss1 + Input + Chr(13) + Chr(10)
+									ssss1 = Input
+								End While
+
+
+								File.Create("0:\" + tc)
+								File.WriteAllText("0:\" + tc, sss1)
+
+
+
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key file.chain,filename .com to chain control
+					If par1.CompareTo(keywords(79)) = 0 Then
+						errorssi = 79
+
+						If par(79) = separete.Length Then
+							tc = separete(1).Trim()
+
+
+
+							If tc.CompareTo("") <> 0 Then
+
+
+
+
+
+								Console.WriteLine("loading file.....")
+								Dim ssss As String = ""
+								s = File.ReadAllText("0:\" + tc).Split(Chr(13))
+
+
+								forcount = 0
+								varscount = 0
+								labelindex = 0
+								errorss = 0
+								errorssi = 0
+								GoTo onruns
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
 
 				End If
+allkey:
 
 			Next
 
 
-allkey:
 
 			GoTo escapehandler
 errorhandler:
@@ -629,12 +706,16 @@ findstateexit:
 			Console.WriteLine("let,var,  hello world    ")
 			Console.WriteLine("beep")
 			Console.WriteLine("time.sleep,var1")
+			Console.WriteLine("edit,filename.idx")
+			Console.WriteLine("file.chain,filename.idx")
 		End Sub
 
 
 		Protected Overrides Sub BeforeRun()
 
 			Dim n As Integer
+			Dim fs = New Sys.FileSystem.CosmosVFS()
+			Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs)
 			Console.BackgroundColor = ConsoleColor.Green
 			Console.Clear()
 			Console.WriteLine("index 32 bits")
