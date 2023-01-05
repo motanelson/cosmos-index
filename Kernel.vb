@@ -677,7 +677,114 @@ onruns:
 						End If
 						GoTo allkey
 					End If
+					'key add,var3,var1,var2
+					If par1.CompareTo(keywords(7)) = 0 Then
+						errorssi = 7
 
+						If par(7) = separete.Length Then
+							Dim tc1 As String = separete(2).Trim().ToUpper()
+							Dim tc2 As String = separete(3).Trim().ToUpper()
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+							Dim ifindvar1 As Integer
+							Dim ifindvar2 As Integer
+							ifindvar = findvar(tc)
+							ifindvar1 = findvar(tc1)
+							ifindvar2 = findvar(tc2)
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And ifindvar2 <> -1 And tc1.CompareTo("") And tc2.CompareTo("") And varstype(ifindvar) = 0 And varstype(ifindvar1) = 0 And varstype(ifindvar2) = 0 Then
+
+								varnumber(ifindvar) = varnumber(ifindvar1) + varnumber(ifindvar2)
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key sub,var3,var1,var2
+					If par1.CompareTo(keywords(8)) = 0 Then
+						errorssi = 8
+
+						If par(8) = separete.Length Then
+							Dim tc1 As String = separete(2).Trim().ToUpper()
+							Dim tc2 As String = separete(3).Trim().ToUpper()
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+							Dim ifindvar1 As Integer
+							Dim ifindvar2 As Integer
+							ifindvar = findvar(tc)
+							ifindvar1 = findvar(tc1)
+							ifindvar2 = findvar(tc2)
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And ifindvar2 <> -1 And tc1.CompareTo("") And tc2.CompareTo("") And varstype(ifindvar) = 0 And varstype(ifindvar1) = 0 And varstype(ifindvar2) = 0 Then
+
+								varnumber(ifindvar) = varnumber(ifindvar1) - varnumber(ifindvar2)
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key mul,var3,var1,var2
+					If par1.CompareTo(keywords(39)) = 0 Then
+						errorssi = 39
+
+						If par(39) = separete.Length Then
+							Dim tc1 As String = separete(2).Trim().ToUpper()
+							Dim tc2 As String = separete(3).Trim().ToUpper()
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+							Dim ifindvar1 As Integer
+							Dim ifindvar2 As Integer
+							ifindvar = findvar(tc)
+							ifindvar1 = findvar(tc1)
+							ifindvar2 = findvar(tc2)
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And ifindvar2 <> -1 And tc1.CompareTo("") And tc2.CompareTo("") And varstype(ifindvar) = 0 And varstype(ifindvar1) = 0 And varstype(ifindvar2) = 0 Then
+
+								varnumber(ifindvar) = varnumber(ifindvar1) * varnumber(ifindvar2)
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key div,var3,var1,var2
+					If par1.CompareTo(keywords(40)) = 0 Then
+						errorssi = 40
+
+						If par(40) = separete.Length Then
+							Dim tc1 As String = separete(2).Trim().ToUpper()
+							Dim tc2 As String = separete(3).Trim().ToUpper()
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+							Dim ifindvar1 As Integer
+							Dim ifindvar2 As Integer
+							ifindvar = findvar(tc)
+							ifindvar1 = findvar(tc1)
+							ifindvar2 = findvar(tc2)
+							If ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And ifindvar2 <> -1 And tc1.CompareTo("") And tc2.CompareTo("") And varstype(ifindvar) = 0 And varstype(ifindvar1) = 0 And varstype(ifindvar2) = 0 Then
+
+								varnumber(ifindvar) = varnumber(ifindvar1) / varnumber(ifindvar2)
+
+							Else
+								iii = 1 + iii
+								GoTo errorhandler
+							End If
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
 				End If
 allkey:
 
@@ -810,6 +917,10 @@ findstateexit:
 			Console.WriteLine("time.sleep,var1")
 			Console.WriteLine("edit,filename.idx")
 			Console.WriteLine("file.chain,filename.idx")
+			Console.WriteLine(":,label1")
+			Console.WriteLine("goto,label1")
+			Console.WriteLine("add,a,b,c")
+
 		End Sub
 
 
