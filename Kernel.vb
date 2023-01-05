@@ -785,7 +785,94 @@ onruns:
 						End If
 						GoTo allkey
 					End If
+					'key like,var1,var2,goto label id
+					If par1.CompareTo(keywords(13)) = 0 Then
+						errorssi = 13
+
+						If par(13) = separete.Length Then
+							Dim bbbbb As Boolean
+							Dim tc1 As String = separete(2).Trim().ToUpper()
+							Dim tc2 As String = separete(3).Trim().ToUpper()
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+							Dim ifindvar1 As Integer
+							Dim ifindvar2 As Integer
+							ifindvar = findvar(tc)
+							ifindvar1 = findvar(tc1)
+
+							bbbbb = ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And tc1.CompareTo("") And varstype(ifindvar) = 0 And varstype(ifindvar1) = 0 And varnumber(ifindvar1) = varnumber(ifindvar)
+							If Not (bbbbb) Then bbbbb = ifindvar <> -1 And tc.CompareTo("") <> 0 And ifindvar1 <> -1 And tc1.CompareTo("") And varstype(ifindvar) = 1 And varstype(ifindvar1) = 1 And varvalue(ifindvar1).CompareTo(varvalue(ifindvar)) = 0
+							If bbbbb Then
+								tc = separete(3).Trim().ToUpper()
+
+
+								Dim nn As Integer = 0
+								ifindvar = findlabel(tc)
+
+								If ifindvar = -1 And tc.CompareTo("") <> 0 Then
+
+									addlabel(tc, 0, iii, 0)
+									Dim ttc3 As String = ":"
+									Dim ttc2 As String = tc
+									For nn = llinel + 1 To s.Count() - 1
+										ss = s(nn)
+
+										ss = ss.Replace(Chr(10), "")
+										ss = ss.Replace("'", Chr(34))
+										separete = ss.Split(",")
+
+										par1 = separete(0).Trim().ToLower()
+										If par1.CompareTo(ttc3) = 0 Or par1.CompareTo("label") = 0 Then
+
+											tc = separete(1).Trim().ToUpper()
+
+
+											ifindvar2 = findlabel(tc)
+											If ifindvar2 = -1 And tc.CompareTo("") <> 0 Then
+
+												addlabel(tc, 0, nn, 0)
+
+											End If
+											If tc.CompareTo(ttc2) = 0 Then
+												iii = nn
+												llinel = nn
+												If llinel > s.Count() - 1 Then GoTo escapehandler
+												GoTo allkey
+
+											End If
+										End If
+
+
+									Next
+									iii = 1 + iii
+									GoTo errorhandler
+								Else
+									If labeldefined(ifindvar) = 0 And tc.CompareTo("") <> 0 Then
+										labeldefined(ifindvar) = 1
+										labelstate(ifindvar) = 1
+										iii = labeladdress(ifindvar)
+										llinel = iii
+										If llinel > s.Count() - 1 Then GoTo escapehandler
+										GoTo allkey
+									Else
+
+
+										iii = 1 + iii
+										GoTo errorhandler
+									End If
+								End If
+
+								errorssi = -1
+								errorss = 0
+							End If
+							GoTo allkey
+						End If
+
+
+
+					End If
 				End If
+
 allkey:
 
 			Next
