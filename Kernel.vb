@@ -253,12 +253,13 @@ findvarexit:
 		Private Sub onRuns()
 
 
-
+			Dim llinel As Integer
 			Dim s As String() = GetLines()
+			Dim ss As String = ""
 onruns:
 
-			For Each ss In s
-
+			For llinel = 0 To s.Count() - 1
+				ss = s(llinel)
 				ss = ss.Replace(Chr(10), "")
 				ss = ss.Replace("'", Chr(34))
 				Dim separete As String() = ss.Split(",")
@@ -574,6 +575,107 @@ onruns:
 							errorss = 0
 						End If
 						GoTo allkey
+
+					End If
+					'key :,label id
+					If par1.CompareTo(keywords(64)) = 0 Then
+						errorssi = 64
+
+						If par(64) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+
+							ifindvar = findlabel(tc)
+							If ifindvar = -1 And tc.CompareTo("") <> 0 Then
+								addlabel(tc, 1, iii, 1)
+
+
+							Else
+								If labeldefined(ifindvar) = 0 And tc.CompareTo("") <> 0 Then
+									labeldefined(ifindvar) = 1
+									labelstate(ifindvar) = 1
+									labeladdress(ifindvar) = iii
+								Else
+
+
+									iii = 1 + iii
+									GoTo errorhandler
+								End If
+							End If
+
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
+					End If
+					'key goto,label id
+					If par1.CompareTo(keywords(11)) = 0 Then
+						errorssi = 11
+
+						If par(11) = separete.Length Then
+							tc = separete(1).Trim().ToUpper()
+							Dim ifindvar As Integer
+
+							Dim nn As Integer = 0
+							ifindvar = findlabel(tc)
+
+							If ifindvar = -1 And tc.CompareTo("") <> 0 Then
+
+								addlabel(tc, 0, iii, 0)
+								Dim ttc3 As String = ":"
+								Dim ttc2 As String = tc
+								For nn = llinel + 1 To s.Count() - 1
+									ss = s(nn)
+
+									ss = ss.Replace(Chr(10), "")
+									ss = ss.Replace("'", Chr(34))
+									separete = ss.Split(",")
+
+									par1 = separete(0).Trim().ToLower()
+									If par1.CompareTo(ttc3) = 0 Or par1.CompareTo("label") = 0 Then
+
+										tc = separete(1).Trim().ToUpper()
+										Dim ifindvar2 As Integer
+
+										ifindvar2 = findlabel(tc)
+										If ifindvar2 = -1 And tc.CompareTo("") <> 0 Then
+
+											addlabel(tc, 0, nn, 0)
+
+										End If
+										If tc.CompareTo(ttc2) = 0 Then
+											iii = nn
+											llinel = nn
+											If llinel > s.Count() - 1 Then GoTo escapehandler
+											GoTo allkey
+
+										End If
+									End If
+
+
+								Next
+								iii = 1 + iii
+								GoTo errorhandler
+							Else
+								If labeldefined(ifindvar) = 0 And tc.CompareTo("") <> 0 Then
+									labeldefined(ifindvar) = 1
+									labelstate(ifindvar) = 1
+									iii = labeladdress(ifindvar)
+									llinel = iii
+									If llinel > s.Count() - 1 Then GoTo escapehandler
+									GoTo allkey
+								Else
+
+
+									iii = 1 + iii
+									GoTo errorhandler
+								End If
+							End If
+
+							errorssi = -1
+							errorss = 0
+						End If
+						GoTo allkey
 					End If
 
 				End If
@@ -621,7 +723,7 @@ escapehandler:
 			aaa = -1
 			If labelindex > 0 Then
 				For aa = 0 To labelindex - 1
-					If labelss(aa) = name Then
+					If labelss(aa).CompareTo(name) = 0 Then
 						aaa = aa
 						GoTo findlabelexit
 					End If
